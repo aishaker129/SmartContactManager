@@ -12,6 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="USER")
@@ -20,14 +24,24 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	@NotBlank(message="Name field is required !!")
+	@Size(min=2,max=20,message="Minimum 2 and maximum 20 character are allowed !!")
 	private String name;
 	@Column(unique = true)
+	@Email(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
 	private String email;
+	
+	@Pattern(
+			  regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$",
+			  message = "Minimum 8 and maximum 20 characters, at least one uppercase letter, one lowercase letter, one number and one special character:"
+			)
 	private String password;
 	private String role;
 	private boolean status;
 	private String imageUrl;
 	@Column(length = 500)
+	@NotBlank(message="This field can't be empty !!")
+	@Size(min=2,max=500,message="Message can be 2 to 500 character")
 	private String about;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
@@ -90,6 +104,11 @@ public class User {
 	}
 	public void setContact(List<Contact> contact) {
 		this.contact = contact;
+	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
+				+ ", status=" + status + ", imageUrl=" + imageUrl + ", about=" + about + ", contact=" + contact + "]";
 	}
 	
 	
