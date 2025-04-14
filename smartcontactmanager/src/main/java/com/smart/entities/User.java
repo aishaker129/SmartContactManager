@@ -31,10 +31,6 @@ public class User {
 	@Email(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
 	private String email;
 	
-	@Pattern(
-			  regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$",
-			  message = "Minimum 8 and maximum 20 characters, at least one uppercase letter, one lowercase letter, one number and one special character:"
-			)
 	private String password;
 	private String role;
 	private boolean status;
