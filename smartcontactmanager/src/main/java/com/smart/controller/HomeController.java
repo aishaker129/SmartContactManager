@@ -63,7 +63,7 @@ public class HomeController {
 				return "signup";
 			}
 
-			user.setRole("Role_User");
+			user.setRole("ROLE_USER");
 			user.setStatus(true);
 			user.setImageUrl("default.png");
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -85,5 +85,12 @@ public class HomeController {
 			return "signup";
 		}
 
+	}
+
+	// handler for login user
+	@GetMapping("/signin")
+	public String loginUser(Model m) {
+		m.addAttribute("title", "LogIn-Smart Contact Manager");
+		return "login";
 	}
 }

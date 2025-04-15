@@ -37,14 +37,14 @@ public class MyConfig {
         return provider;
     }
 
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-		auth.authenticationProvider(authenticationProvider());
-	}
-    // 4. AuthenticationManager bean (required manually in Spring Security 6)
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-//        return config.getAuthenticationManager();
-//    }
+//	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+//		auth.authenticationProvider(authenticationProvider());
+//	}
+//     4. AuthenticationManager bean (required manually in Spring Security 6)
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
     // 5. SecurityFilterChain bean to configure security
     @Bean
@@ -57,14 +57,12 @@ public class MyConfig {
                 .requestMatchers("/**").permitAll()
             )
             .formLogin(form -> form
-                .loginPage("/signin")               // custom login page (you can change this)
-                .loginProcessingUrl("/dologin")     // login form action URL
-                .defaultSuccessUrl("/user/index")   // default success page after login
+                    .loginPage("/signin")               // custom login page (you can change this)
+//                    .loginProcessingUrl("")     // login form action URL
+//                    .defaultSuccessUrl("/user/index")   // default success page after login
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/signin?logout")
                 .permitAll()
             )
             .authenticationProvider(authenticationProvider());
