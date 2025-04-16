@@ -58,8 +58,8 @@ public class MyConfig {
             )
             .formLogin(form -> form
                     .loginPage("/signin")               // custom login page (you can change this)
-//                    .loginProcessingUrl("")     // login form action URL
-//                    .defaultSuccessUrl("/user/index")   // default success page after login
+                    .loginProcessingUrl("/dologin")     // login form action URL
+                    .defaultSuccessUrl("/user/index")   // default success page after login
                 .permitAll()
             )
             .logout(logout -> logout

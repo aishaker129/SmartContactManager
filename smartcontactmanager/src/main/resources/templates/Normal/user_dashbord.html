@@ -1,11 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
 <head>
 	<meta charset="UTF-8" />
 	<title>User Deshbord</title>
 </head>
 <body>
-	<h1>Welcome to User Dashbord</h1>
-	<h1>This is our normal user</h1>
+	<section>
+		<h1>Welcome to User Dashbord</h1>
+		<h1>This is our normal user</h1>
+	</section>
 </body>
 </html>
