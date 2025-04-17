@@ -31,3 +31,61 @@ body{
 #login .container #login-row #login-column #login-box #login-form #register-link {
   margin-top: -68px;
 }
+
+/* Sidebar style */
+.sidebar{
+	width:18%;
+	background: white;
+	height:100vh;
+	position: fixed;
+	padding-top: 45px;
+}
+.sidebar a{
+	width: 100%;
+	display: block;
+	padding: 10px 35px;
+	text-decoration: none;
+	color: gray;
+	font-size: 20px;
+	
+}
+
+.sidebar a:hover{
+	background: #e2e2e2;
+}
+
+/* responsive design */
+
+@media only screen and (max-width:600px){
+	.sidebar{
+		display: none;
+		width:80% !important;
+		background: white;
+		height: 100vh;
+		position: fixed;
+		padding-top: 20px;
+	}
+	
+	.content{
+		margin-left: 0% !important;
+	}
+}
+
+.sidebar .crossbtn{
+	position: absolute;
+	top: 0;
+	right: 35px;
+	font-size: 36px;
+	cursor: pointer;
+}
+
+.sidebar .devider{
+	height: .5px;
+	width: 100%;
+	background: #e2e2e2;
+	margin-top: 10px;
+}
+
+.content{
+	margin-left: 20%;
+}

@@ -1,14 +1,17 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{base::layout(~{::section})}">
+	th:replace="~{Normal/base::layout(~{::section})}">
 <head>
 	<meta charset="UTF-8" />
 	<title>User Deshbord</title>
 </head>
 <body>
 	<section>
-		<h1>Welcome to User Dashbord</h1>
-		<h1>This is our normal user</h1>
+		<h1>Welcome to User Dashboard</h1>
+		<h1>This is your private Dashboard</h1>
+		<h1> User Name <span th:text="${user.name}"></span></h1>
+		<h1>User Email:  <span th:text="${user.email}"></span></h1>
+		<h1><a th:href="@{/logout}">Logout</a></h1>
 	</section>
 </body>
 </html>
