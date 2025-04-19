@@ -7,6 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="CONTACT")
@@ -15,13 +19,24 @@ public class Contact {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cid;
+	@NotBlank(message="Name field is required !!")
+	@Size(min=2,max=20,message="Minimum 2 and maximum 20 character are allowed !!")
 	private String name;
+	@NotBlank()
+	@Size(min=2,max=20,message="Minimum 2 and maximum 20 character are allowed !!")
 	private String secondName;
+	@NotBlank()
+	@Size(min=2,max=20,message="Minimum 2 and maximum 20 character are allowed !!")
 	private String work;
+	@Email(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
 	private String email;
+	@Pattern(regexp = "^(?:\\+880|880|0)1[3-9]\\d{8}$", message = "Invalid Bangladeshi phone number")
 	private String phone;
+	@NotBlank(message = "Must be upload image field")
 	private String image;
 	@Column(length = 5000)
+	@NotBlank()
+	@Size(min=2,max=20,message="Minimum 2 and maximum 20 character are allowed !!")
 	private String description;
 	
 	@ManyToOne
