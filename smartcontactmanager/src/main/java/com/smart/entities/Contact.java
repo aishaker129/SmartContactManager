@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -32,7 +33,7 @@ public class Contact {
 	private String email;
 	@Pattern(regexp = "^(?:\\+880|880|0)1[3-9]\\d{8}$", message = "Invalid Bangladeshi phone number")
 	private String phone;
-	@NotBlank(message = "Must be upload image field")
+	@NotNull(message = "Image file must be uploaded")
 	private String image;
 	@Column(length = 5000)
 	@NotBlank()

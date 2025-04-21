@@ -16,6 +16,7 @@
 							role="alert" id="alertBox">
 							<p class="text-center" th:text="${session.message.content}"></p>
 							<!-- <th:block th:text="${#session.removeAttribute('message')}"></th:block> -->
+							<th:block th:text="${@sessionHelper.removeMessageFormSession()}"></th:block>
 						</div>
 						
 
