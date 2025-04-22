@@ -119,7 +119,7 @@
 								<div data-mdb-input-init class="form-outline mb-4">
   									<textarea placeholder="Enter contact description" 
   										class="form-control" 
-  										id="description" 
+  										id="mytextarea" 
   										name="description" 
   										th:value="${contact.description}"
   										th:classappend="${#fields.hasErrors('description') ? 'is-invalid':''}"
@@ -146,6 +146,16 @@
 				</div>
 			</div>
 		</div>
+		
+		<script src="https://cdn.tiny.cloud/1/plg8zkp7brpf84yziihvaahrxduerdcj4x3rn0e461pfbcve/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+		
+		<script src="/path/or/uri/to/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: '#mytextarea',
+        license_key: 'gpl|<your-license-key>'
+      });
+    </script>
 
 	</section>
 </body>
