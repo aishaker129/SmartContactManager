@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
 
 import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.smart.Dao.ContactRepository;
 import com.smart.Dao.UserRepository;
 import com.smart.entities.Contact;
 import com.smart.entities.User;
@@ -33,6 +35,9 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ContactRepository contactRepository;
 
 	// method for adding common data to response
 	@ModelAttribute
@@ -116,5 +121,22 @@ public class UserController {
 			session.setAttribute("message",new com.smart.helper.Message("Something went to wrong !!", "alert-danger"));
 		}
 		return "Normal/add_contact_form";
+	}
+	
+	@GetMapping("/view_contact")
+	public String ShowContacts(Model m, Principal p) {
+		
+		m.addAttribute("title", "All Contacts");
+		String userName = p.getName();
+		
+		User user = this.userRepository.getUserByUserName(userName);
+		
+		List<Contact> contact =  this.contactRepository.findContactByUser(user.getId());
+		
+		m.addAttribute("contacts",contact);
+		
+		return "Normal/show_contact";
+		
+		
 	}
 }
