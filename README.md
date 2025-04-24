@@ -1,1 +1,2 @@
 # SmartContactManager
+Spring Boot Project
