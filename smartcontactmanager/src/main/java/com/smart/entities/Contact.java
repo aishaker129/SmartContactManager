@@ -33,11 +33,8 @@ public class Contact {
 	private String email;
 	@Pattern(regexp = "^(?:\\+880|880|0)1[3-9]\\d{8}$", message = "Invalid Bangladeshi phone number")
 	private String phone;
-	@NotNull(message = "Image file must be uploaded")
 	private String image;
 	@Column(length = 5000)
-	@NotBlank()
-	@Size(min=2,max=20,message="Minimum 2 and maximum 20 character are allowed !!")
 	private String description;
 	
 	@ManyToOne

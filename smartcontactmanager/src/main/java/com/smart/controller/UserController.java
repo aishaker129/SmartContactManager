@@ -1,6 +1,7 @@
 package com.smart.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,11 +12,18 @@ import java.util.List;
 import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,6 +78,11 @@ public class UserController {
 		return "Normal/add_contact_form";
 	}
 
+	 @InitBinder
+	 public void initBinder(WebDataBinder binder) {
+		    binder.setDisallowedFields("image");
+		}
+	 
 	@PostMapping("/process-contact")
 	public String processingContactForm(@Valid @ModelAttribute Contact contact,
 			BindingResult result,@RequestParam("image") MultipartFile file,
@@ -78,7 +91,15 @@ public class UserController {
 			String name = p.getName();
 			User user = this.userRepository.getUserByUserName(name);
 			
+			
+			if (result.hasErrors()) {
+				System.out.println("Error: " + result.toString());
+				m.addAttribute("contact", contact);
+				return "Normal/add_contact_form";
+			}
+			
 			// Processing and uploading file
+			
 			if(file.isEmpty()) {
 				System.out.println("Empty image !!");
 				throw new Exception("You have upload image");
@@ -99,11 +120,7 @@ public class UserController {
 				
 				}
 			
-			if (result.hasErrors()) {
-				System.out.println("Error: " + result.toString());
-				m.addAttribute("contact", contact);
-				return "Normal/add_contact_form";
-			}
+			
 			
 			contact.setUser(user);
 			user.getContact().add(contact);
@@ -111,6 +128,7 @@ public class UserController {
 			System.out.println("contact = " + contact);
 			System.out.println("Contact Add successfully");
 			
+			m.addAttribute("contact",new Contact());
 			// Success Message show call
 			session.setAttribute("message",new com.smart.helper.Message("Contact added successfully !!", "alert-success"));
 		} catch (Exception e) {
@@ -123,20 +141,28 @@ public class UserController {
 		return "Normal/add_contact_form";
 	}
 	
-	@GetMapping("/view_contact")
-	public String ShowContacts(Model m, Principal p) {
+	@GetMapping("/view_contact/{page}")
+	public String ShowContacts(@PathVariable("page") Integer page,Model m, Principal p) {
 		
 		m.addAttribute("title", "All Contacts");
 		String userName = p.getName();
 		
 		User user = this.userRepository.getUserByUserName(userName);
 		
-		List<Contact> contact =  this.contactRepository.findContactByUser(user.getId());
+		Pageable pageable = PageRequest.of(page, 10);
+		
+		Page<Contact> contact =  this.contactRepository.findContactByUser(user.getId(),pageable);
 		
 		m.addAttribute("contacts",contact);
+		m.addAttribute("currentPage",page);
+		m.addAttribute("totalPages",contact.getTotalPages());
 		
 		return "Normal/show_contact";
 		
 		
 	}
+	
+	 
+	
+
 }

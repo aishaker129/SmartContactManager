@@ -121,20 +121,18 @@
   										class="form-control" 
   										id="mytextarea" 
   										name="description" 
-  										th:value="${contact.description}"
+  										th:field="*{description}"
   										th:classappend="${#fields.hasErrors('description') ? 'is-invalid':''}"
   										rows="10"></textarea>
   										<div class="invalid-feedback" th:each="e : ${#fields.errors('description')}" th:text="${e}"></div>
 								</div>
 								<!-- Image -->
 								<div class="custom-file mb-3">
-									<input type="file" name="image"
-									th:value="${contact.image}"
-  									th:classappend="${#fields.hasErrors('image') ? 'is-invalid':''}"
-  										
-									/>
-									<div class="invalid-feedback" th:each="e : ${#fields.errors('image')}" th:text="${e}"></div>
-								</div>
+        							<input type="file" name="image"
+               						class="form-control"
+               						th:classappend="${#fields.hasErrors('image')} ? 'is-invalid' : ''" />
+        							<div class="invalid-feedback" th:each="e : ${#fields.errors('image')}" th:text="${e}"></div>
+    							</div>
 								
 								<div class="container text-center mb-3">
 									<button class="btn btn-outline-primary" type="submit">Save contact</button>
