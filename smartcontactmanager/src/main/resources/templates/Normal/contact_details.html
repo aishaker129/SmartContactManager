@@ -38,7 +38,7 @@
 						<p th:utext="${contact.description}"></p>
 					</div>
 					<div class="container mt-3">
-						<button class="btn btn-danger btn-lg">Delete</button>
+						<a href="#" th:onclick="|deleteContact(${contact.cid})|" class="btn btn-danger btn-lg">Delete</a>
 						<button class="btn btn-primary btn-lg ms-2">Edit</button>
 					</div>		
 				</div>

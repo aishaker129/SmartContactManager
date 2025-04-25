@@ -81,6 +81,29 @@
 		crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		
+		<script>
+			function deleteContact(cid){
+				swal({
+					  title: "Are you sure?",
+					  text: "You want to delete this contact..!!",
+					  icon: "warning",
+					  buttons: true,
+					  dangerMode: true,
+					})
+					.then((willDelete) => {
+					  if (willDelete) {
+					    
+						  window.location="/user/delete/"+cid;
+						  
+					  } else {
+					    swal("Your contact is safe!");
+					  }
+					});
+			}
+		</script>
+		
 	<script src="" th:src="@{/JS/script.js}"></script>
 	<!-- Option 2: Separate Popper and Bootstrap JS -->
 	<!--
