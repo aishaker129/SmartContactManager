@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +103,7 @@ public class UserController {
 			
 			if(file.isEmpty()) {
 				System.out.println("Empty image !!");
+				contact.setImage("contact.png");
 				throw new Exception("You have upload image");
 			}
 			else {
@@ -149,7 +151,7 @@ public class UserController {
 		
 		User user = this.userRepository.getUserByUserName(userName);
 		
-		Pageable pageable = PageRequest.of(page, 10);
+		Pageable pageable = PageRequest.of(page, 2);
 		
 		Page<Contact> contact =  this.contactRepository.findContactByUser(user.getId(),pageable);
 		
@@ -160,6 +162,26 @@ public class UserController {
 		return "Normal/show_contact";
 		
 		
+	}
+	
+	@GetMapping("/{cid}/contact")
+	public String showContactDetails(@PathVariable("cid") Integer cid,Model m,Principal p) {
+		System.out.println("Contact_ID: "+cid);
+		
+		Optional<Contact> contactOptional = this.contactRepository.findById(cid);
+		Contact contact = contactOptional.get(); 
+		
+		String userName = p.getName();
+		User user = this.userRepository.getUserByUserName(userName);
+		
+		if(user.getId()==contact.getUser().getId()) {
+			m.addAttribute("contact",contact);
+			m.addAttribute("title",contact.getName());
+		}
+		
+		
+		
+		return "Normal/contact_details";
 	}
 	
 	 

@@ -96,3 +96,14 @@ body{
 	text-align: center;
 	padding-top: 4px; 
 }
+
+.my_profile_picture{
+	width: 40px;
+	height: 40px;
+	object-fit:cover;
+}
+
+.contact_details{
+	width: 300px;
+	height: 300px;
+}
