@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -196,7 +197,11 @@ public class UserController {
 		
 		//check assignment...
 		if(user.getId()==contact.getUser().getId()) {
-			// contact.setUser(null);
+			// contact.setUser(null); // first we set null contact in user site then delete the contact because user and contact entity are mapped 
+			
+			// remove image
+			// contact 
+			
 			this.contactRepository.delete(contact);
 			session.setAttribute("message",new com.smart.helper.Message("Contact deleted successfully", "alert-success"));
 		}
@@ -208,5 +213,65 @@ public class UserController {
 		return "redirect:/user/view_contact/0";
 	}
 	
+	//Open update form handler
+	@PostMapping("/update_contact/{cid}")
+	public String updateHandler(@PathVariable("cid") Integer cid,Model m) {
+		m.addAttribute("title","Update Contact");
+		
+		Contact contact = this.contactRepository.findById(cid).get();
+		m.addAttribute("contact",contact);
+		return "Normal/update_contact";
+	}
+	
+	// update contact handler
+	//@PostMapping("/process-Update")
+	@RequestMapping(value = "/process-Update",method = RequestMethod.POST)
+	public String processUpdate(@ModelAttribute Contact contact,
+			@RequestParam("image") MultipartFile file,Model m, 
+			HttpSession session,Principal p) {
+		
+		try {
+			
+			// old contact details
+			Contact oldContact = this.contactRepository.findById(contact.getCid()).get();
+			
+			if(!file.isEmpty()) {
+				// file work...
+				// rewrite...
+				
+				// delete old photo
+				File deleteFile = new ClassPathResource("static/Image").getFile();
+				File file1 = new File(deleteFile, oldContact.getImage());
+				file1.delete();
+				// update new photo
+				File imageFolder = new ClassPathResource("static/Image").getFile();
+				Path path = Paths.get(imageFolder.getAbsolutePath()+File.separator+file.getOriginalFilename());
+			
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				
+				contact.setImage(file.getOriginalFilename());
+			}
+			else {
+				contact.setImage(oldContact.getImage());
+			}
+			
+			User user = this.userRepository.getUserByUserName(p.getName());
+			contact.setUser(user);
+			
+			this.contactRepository.save(contact);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Contact : "+contact.getName());
+		return "redirect:/user/"+contact.getCid()+"/contact";
+	}
 
+	// user profile handler
+	@GetMapping("/profile")
+	public String userProfile(Model m) {
+		m.addAttribute("title","User Profile");
+//		m.addAttribute("user",user);
+		return "Normal/user_profile";
+	}
 }

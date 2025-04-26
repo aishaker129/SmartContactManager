@@ -7,11 +7,19 @@
 </head>
 <body>
 	<section>
-		<h1>Welcome to User Dashboard</h1>
-		<h1>This is your private Dashboard</h1>
-		<h1> User Name <span th:text="${user.name}"></span></h1>
-		<h1>User Email:  <span th:text="${user.email}"></span></h1>
-		<h1><a th:href="@{/logout}">Logout</a></h1>
+			<div class="card ms-3 me-3">
+				<div class="card-body my-5">
+					<div class="container text-center">
+						<img class="default_image rounded-circle" src="" th:src="@{'/Image/contact.jpg'}" alt="Profile-Image" />
+					</div>
+					<h1 class="text-center text-secondary fst-italic fw-bolder">Start Adding your contact on cloud....</h1>
+					
+					<div class="container text-center mt-3">
+						<a th:href="@{/user/add-contact}" class="btn btn-outline-primary btn-lg">Add Contact</a>
+					</div>
+				
+				</div>
+			</div>
 	</section>
 </body>
 </html>

@@ -21,13 +21,10 @@ public class Contact {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cid;
 	@NotBlank(message="Name field is required !!")
-	@Size(min=2,max=20,message="Minimum 2 and maximum 20 character are allowed !!")
 	private String name;
 	@NotBlank()
-	@Size(min=2,max=20,message="Minimum 2 and maximum 20 character are allowed !!")
 	private String secondName;
 	@NotBlank()
-	@Size(min=2,max=20,message="Minimum 2 and maximum 20 character are allowed !!")
 	private String work;
 	@Email(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
 	private String email;
@@ -102,6 +99,11 @@ public class Contact {
 //		return "Contact [cid=" + cid + ", name=" + name + ", secondName=" + secondName + ", work=" + work + ", email="
 //				+ email + ", phone=" + phone + ", image=" + image + ", description=" + description + ", user=" + user
 //				+ "]";
+//	}
+//	@Override
+//	public boolean equals(Object obj) {
+//		// TODO Auto-generated method stub
+//		return this.cid==((Contact).obj).getCid();
 //	}
 	
 	

@@ -37,9 +37,11 @@
 					<div class="description">
 						<p th:utext="${contact.description}"></p>
 					</div>
-					<div class="container mt-3">
-						<a href="#" th:onclick="|deleteContact(${contact.cid})|" class="btn btn-danger btn-lg">Delete</a>
-						<button class="btn btn-primary btn-lg ms-2">Edit</button>
+					<div class="container mt-3 d-flex p-2 gap-2 justify-content-center">
+						<button th:onclick="|deleteContact(${contact.cid})|" class="btn btn-danger btn-lg">Delete</button>
+						<form th:action="@{'/user/update_contact/'+${contact.cid}}" method="post">
+							<button type="submit" class="btn btn-primary btn-lg">Edit</button>
+						</form>
 					</div>		
 				</div>
 			</div>

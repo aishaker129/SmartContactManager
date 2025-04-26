@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{Normal/base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8" />
+	<title th:text="${title}"></title>
+</head>
+<body>
+	<section>
+		<div class="card me-3 ms-3">
+			<div class="cart-body">
+				<h1 class="text-center my-5">Update Contact</h1>
+
+				<div class="container-fluid mt-1 mb-3">
+					<div class="row">
+						<div class="col-md-10 offset-md-1">
+							<form action="#" th:object="${contact}" method="post"
+								th:action="@{/user/process-Update}" enctype="multipart/form-data" class="mt-2">
+
+								<input type="hidden" th:value="${contact.cid}" name="cid" />
+								<!-- First Name -->
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<div class="input-group-text">
+											<i class="fa fa-plus user"></i>
+										</div>
+
+									</div>
+
+									<input type="text" 
+										id="firstName" 
+										name="name"
+										placeholder="Enter your Name here" 
+										class="form-control" 
+										th:value="${contact.name}"
+									/>
+									</div>
+								
+								<!-- Second Name -->
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<div class="input-group-text">
+											<i class="fa fa-user-alt user"></i>
+										</div>
+
+									</div>
+
+									<input type="text" 
+										id="secondName" 
+										name="secondName"
+										placeholder="Enter your NickName here" 
+										class="form-control"
+										th:value="${contact.secondName}"
+									/>
+									</div>
+								
+								<!-- Work -->
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<div class="input-group-text">
+											<i class="fa fa-briefcase user"></i>
+										</div>
+
+									</div>
+
+									<input type="text" 
+										id="job_title" 
+										name="work"
+										placeholder="Enter Job Title here" 
+										class="form-control"
+										th:value="${contact.work}"
+										/>
+									</div>
+								<!-- Email -->
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<div class="input-group-text">
+											<i class="fa fa-envelope user"></i>
+										</div>
+
+									</div>
+
+									<input type="email" 
+										id="email" 
+										name="email"
+										placeholder="Enter valid email" 
+										class="form-control"
+										th:value="${contact.email}" 
+									/>
+									
+								</div>
+								<!-- Phone -->
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<div class="input-group-text">
+											<i class="fa fa-phone user"></i>
+										</div>
+
+									</div>
+
+									<input type="number" 
+										id="phone" 
+										name="phone"
+										placeholder="Enter your Phone Number" 
+										class="form-control"
+										th:value="${contact.phone}" 
+									/>
+									
+								</div>
+								
+								<!-- Description -->
+								<div data-mdb-input-init class="form-outline mb-4">
+  									<textarea placeholder="Enter contact description" 
+  										class="form-control" 
+  										id="mytextarea" 
+  										name="description" 
+  										th:field="*{description}"
+  										rows="10"></textarea>
+  										
+								</div>
+								<!-- Image -->
+								<div class="container text-center mb-3">
+									<img th:src="@{'/Image/'+${contact.image}}" alt="" class="img-fluid contact_details rounded-circle" />
+								</div>
+								<p class="text-secondary">Change new profile picture</p>
+								<div class="custom-file mb-3">
+        							<input type="file" name="image"
+               						class="form-control"
+               						placeholder="Enter new photo"/>
+        							
+    							</div>
+								
+								<div class="container text-center mb-3">
+									<button class="btn btn-outline-primary" type="submit">Save contact</button>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="https://cdn.tiny.cloud/1/plg8zkp7brpf84yziihvaahrxduerdcj4x3rn0e461pfbcve/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+		
+		<script src="/path/or/uri/to/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: '#mytextarea',
+        license_key: 'gpl|<your-license-key>'
+      });
+    </script>
+	</section>
+</body>
+</html>
