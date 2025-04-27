@@ -1,7 +1,6 @@
 package com.smart.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,7 +9,6 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +35,8 @@ import com.smart.entities.User;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+
+import com.smart.helper.Message;
 
 @Controller
 @RequestMapping("/user")
@@ -133,13 +132,13 @@ public class UserController {
 			
 			m.addAttribute("contact",new Contact());
 			// Success Message show call
-			session.setAttribute("message",new com.smart.helper.Message("Contact added successfully !!", "alert-success"));
+			session.setAttribute("message",new Message("Contact added successfully !!", "alert-success"));
 		} catch (Exception e) {
 			System.out.println("ERROR: " + e.getMessage());
 			e.printStackTrace();
 			
 			// Error message show call
-			session.setAttribute("message",new com.smart.helper.Message("Something went to wrong !!", "alert-danger"));
+			session.setAttribute("message",new Message("Something went to wrong !!", "alert-danger"));
 		}
 		return "Normal/add_contact_form";
 	}
@@ -201,17 +200,27 @@ public class UserController {
 			
 			// remove image
 			// contact 
-			
+			try {
+	            File deleteFile = new ClassPathResource("static/Image/").getFile();
+	            File file = new File(deleteFile, contact.getImage());
+	            if (file.exists()) {
+	                file.delete();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 			this.contactRepository.delete(contact);
-			session.setAttribute("message",new com.smart.helper.Message("Contact deleted successfully", "alert-success"));
+			session.setAttribute("message",new Message("Contact deleted successfully", "alert-success"));
 		}
 		else {
-			session.setAttribute("message",new com.smart.helper.Message("Something went to wrong..", "alert-danger"));
+			session.setAttribute("message",new Message("Something went to wrong..", "alert-danger"));
 		}
 		
 		
 		return "redirect:/user/view_contact/0";
 	}
+	
+	
 	
 	//Open update form handler
 	@PostMapping("/update_contact/{cid}")
@@ -271,7 +280,35 @@ public class UserController {
 	@GetMapping("/profile")
 	public String userProfile(Model m) {
 		m.addAttribute("title","User Profile");
-//		m.addAttribute("user",user);
 		return "Normal/user_profile";
 	}
+	
+//	@GetMapping("/user_delete/{id}")
+//	public String deleteUser(@PathVariable("id") Integer id,Principal p,HttpSession session) {
+//		
+////		Optional<User> optionalUser = this.userRepository.findById(id);
+////		User user = optionalUser.get();
+//		String name = p.getName();
+//		User user = this.userRepository.getUserByUserName(name);
+//		if(user.getId()==id) {
+//			try {
+//	            File deleteFile = new ClassPathResource("static/Image/").getFile();
+//	            File file = new File(deleteFile, user.getImageUrl());
+//	            if (file.exists()) {
+//	                file.delete();
+//	            }
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	        }
+//			
+//			System.out.println(user);
+//			
+//			this.userRepository.delete(user);
+//			session.setAttribute("message",new Message("User deleted successfully", "alert-success"));
+//		}
+//		else {
+//			session.setAttribute("message",new Message("Something went to wrong..!!", "alert-danger"));
+//		}
+//		return "redirect:/";
+//	}
 }
