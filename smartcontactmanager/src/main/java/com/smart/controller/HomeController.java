@@ -93,4 +93,5 @@ public class HomeController {
 		m.addAttribute("title", "LogIn-Smart Contact Manager");
 		return "signin";
 	}
+	
 }

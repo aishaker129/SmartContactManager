@@ -102,6 +102,25 @@
 					  }
 					});
 			}
+			
+			function deleteUser(id){
+				swal({
+					  title: "Are you sure?",
+					  text: "You want to delete this User..!!",
+					  icon: "warning",
+					  buttons: true,
+					  dangerMode: true,
+					})
+					.then((willDelete) => {
+					  if (willDelete) {
+					    
+						  window.location="/user/deleteUser/"+id;
+						  
+					  } else {
+					    swal("User is safe!");
+					  }
+					});
+			}
 		</script>
 		
 	<script src="" th:src="@{/JS/script.js}"></script>

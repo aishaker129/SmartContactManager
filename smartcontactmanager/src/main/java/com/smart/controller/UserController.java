@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.smart.Dao.ContactRepository;
 import com.smart.Dao.UserRepository;
@@ -283,32 +284,79 @@ public class UserController {
 		return "Normal/user_profile";
 	}
 	
-//	@GetMapping("/user_delete/{id}")
-//	public String deleteUser(@PathVariable("id") Integer id,Principal p,HttpSession session) {
-//		
-////		Optional<User> optionalUser = this.userRepository.findById(id);
-////		User user = optionalUser.get();
-//		String name = p.getName();
-//		User user = this.userRepository.getUserByUserName(name);
-//		if(user.getId()==id) {
-//			try {
-//	            File deleteFile = new ClassPathResource("static/Image/").getFile();
-//	            File file = new File(deleteFile, user.getImageUrl());
-//	            if (file.exists()) {
-//	                file.delete();
-//	            }
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	        }
-//			
-//			System.out.println(user);
-//			
-//			this.userRepository.delete(user);
-//			session.setAttribute("message",new Message("User deleted successfully", "alert-success"));
-//		}
-//		else {
-//			session.setAttribute("message",new Message("Something went to wrong..!!", "alert-danger"));
-//		}
-//		return "redirect:/";
-//	}
+	@PostMapping("/user_update/{id}")
+	public String updateUser(@PathVariable("id") Integer id, Principal p,Model m) {
+		m.addAttribute("title","Update User");
+		
+		User user = this.userRepository.findById(id).get();
+		m.addAttribute("user",user);
+		return "Normal/user_update";
+	}
+	
+	@InitBinder
+	 public void initBinder1(WebDataBinder binder) {
+		    binder.setDisallowedFields("imageUrl");
+		}
+	
+	@PostMapping("/user-process-Update")
+	public String processUpdateUser(@ModelAttribute User user,@RequestParam("imageUrl") 
+	MultipartFile file,Model m,HttpSession session, Principal p) {
+		try {
+			User oldUser = this.userRepository.findById(user.getId()).get();
+			
+			if(!file.isEmpty()) {
+				// file work...
+				// rewrite...
+				
+				// delete old photo
+				File deleteFile = new ClassPathResource("static/Image").getFile();
+				File file1 = new File(deleteFile, oldUser.getImageUrl());
+				file1.delete();
+				// update new photo
+				File imageFolder = new ClassPathResource("static/Image").getFile();
+				Path path = Paths.get(imageFolder.getAbsolutePath()+File.separator+file.getOriginalFilename());
+			
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				
+				user.setImageUrl(file.getOriginalFilename());
+			}
+			else {
+				user.setImageUrl(oldUser.getImageUrl());
+			}
+			
+			this.userRepository.save(user);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		System.out.println("User: "+user);
+		return "redirect:/user/profile";
+	}
+	
+	@GetMapping("/deleteUser/{id}")
+	public String deleteUser(@PathVariable("id") Integer id,Principal p,HttpSession session) {
+		User user = this.userRepository.findById(id).get();
+		
+		// contact.setUser(null); // first we set null contact in user site then delete the contact because user and contact entity are mapped 
+		
+					// remove image
+					// contact 
+					try {
+			            File deleteFile = new ClassPathResource("static/Image/").getFile();
+			            File file = new File(deleteFile, user.getImageUrl());
+			            if (file.exists()) {
+			                file.delete();
+			            }
+			            
+			            this.userRepository.delete(user);
+						session.setAttribute("message",new Message("User deleted successfully", "alert-success"));
+			        } catch (Exception e) {
+			            e.printStackTrace();
+						session.setAttribute("message",new Message("Something Went to Wrong", "alert-danger"));
+			        }
+					
+		
+		return "redirect:/signin";
+	}
 }

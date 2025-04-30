@@ -40,8 +40,8 @@
 					</table>
 					
 					<div class="container mt-3 d-flex p-2 gap-2 justify-content-center">
-						<button th:onclick="|deleteContact(${user.id})|" class="btn btn-danger btn-lg">Delete</button>
-						<form th:action="@{'/user/update_contact/'+${user.id}}" method="post">
+						<button th:onclick="|deleteUser(${user.id})|" class="btn btn-danger btn-lg">Delete</button>
+						<form th:action="@{'/user/user_update/'+${user.id}}" method="post">
 							<button type="submit" class="btn btn-primary btn-lg">Edit</button>
 						</form>
 					</div>	
