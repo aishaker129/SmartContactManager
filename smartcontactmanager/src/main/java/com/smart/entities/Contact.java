@@ -34,6 +34,8 @@ public class Contact {
 	@Column(length = 5000)
 	private String description;
 	
+	
+	
 	@ManyToOne
 	private User user;
 	

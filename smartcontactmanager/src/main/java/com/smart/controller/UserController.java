@@ -80,8 +80,8 @@ public class UserController {
 		return "Normal/add_contact_form";
 	}
 
-	 @InitBinder
-	 public void initBinder(WebDataBinder binder) {
+	 @InitBinder("contact")
+	 public void contactBinder(WebDataBinder binder) {
 		    binder.setDisallowedFields("image");
 		}
 	 
@@ -293,8 +293,8 @@ public class UserController {
 		return "Normal/user_update";
 	}
 	
-	@InitBinder
-	 public void initBinder1(WebDataBinder binder) {
+	@InitBinder("user")
+	 public void userBinder(WebDataBinder binder) {
 		    binder.setDisallowedFields("imageUrl");
 		}
 	
