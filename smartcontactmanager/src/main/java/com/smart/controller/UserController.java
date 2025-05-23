@@ -95,7 +95,7 @@ public class UserController {
 			
 			
 			if (result.hasErrors()) {
-				System.out.println("Error: " + result.toString());
+				//System.out.println("Error: " + result.toString());
 				m.addAttribute("contact", contact);
 				return "Normal/add_contact_form";
 			}
@@ -128,8 +128,8 @@ public class UserController {
 			contact.setUser(user);
 			user.getContact().add(contact);
 			this.userRepository.save(user);
-			System.out.println("contact = " + contact);
-			System.out.println("Contact Add successfully");
+			//System.out.println("contact = " + contact);
+			//System.out.println("Contact Add successfully");
 			
 			m.addAttribute("contact",new Contact());
 			// Success Message show call
@@ -152,7 +152,7 @@ public class UserController {
 		
 		User user = this.userRepository.getUserByUserName(userName);
 		
-		Pageable pageable = PageRequest.of(page, 2);
+		Pageable pageable = PageRequest.of(page, 10);
 		
 		Page<Contact> contact =  this.contactRepository.findContactByUser(user.getId(),pageable);
 		
@@ -167,7 +167,7 @@ public class UserController {
 	
 	@GetMapping("/{cid}/contact")
 	public String showContactDetails(@PathVariable("cid") Integer cid,Model m,Principal p) {
-		System.out.println("Contact_ID: "+cid);
+		//System.out.println("Contact_ID: "+cid);
 		
 		Optional<Contact> contactOptional = this.contactRepository.findById(cid);
 		Contact contact = contactOptional.get(); 
@@ -330,7 +330,7 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
-		System.out.println("User: "+user);
+		//System.out.println("User: "+user);
 		return "redirect:/user/profile";
 	}
 	
